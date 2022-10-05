@@ -11,6 +11,34 @@ userRoutes.get("/", (req: Request, res: Response) => {
   });
 });
 
+// Login
+userRoutes.post("/login", (req: Request, res: Response) => {
+  const body = req.body;
+
+  User.findOne({ email: body.email }, (err, userDB) => {
+    if (err) throw err;
+
+    if (!userDB) {
+      return res.json({
+        ok: false,
+        message: "User / password are incorrect",
+      });
+    }
+
+    if (userDB.comparePassword(body.password)) {
+      res.json({
+        ok: true,
+        token: "TOKEN",
+      });
+    } else {
+      return res.json({
+        ok: false,
+        message: "User / password are incorrect",
+      });
+    }
+  });
+});
+
 userRoutes.post("/", (req: Request, res: Response) => {
   const { body } = req;
 

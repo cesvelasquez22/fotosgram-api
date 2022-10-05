@@ -9,7 +9,7 @@ const server = new Server();
 server.app.use(bodyParser.urlencoded({ extended: true }));
 server.app.use(bodyParser.json());
 
-server.app.use("/user", userRoutes);
+server.app.use("/users", userRoutes);
 
 // Connect to database
 mongoose.connect("mongodb://localhost:27017/fotosgram", {}, (err) => {
