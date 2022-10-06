@@ -7,6 +7,7 @@ const express_1 = require("express");
 const user_model_1 = require("../models/user.model");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const token_1 = __importDefault(require("../classes/token"));
+const auth_1 = require("../middlewares/auth");
 const userRoutes = (0, express_1.Router)();
 userRoutes.get("/", (req, res) => {
     res.json({
@@ -66,7 +67,7 @@ userRoutes.post("/", (req, res) => {
         });
         res.json({
             ok: true,
-            user: userDB,
+            // user: userDB,
             token,
         });
     })
@@ -74,6 +75,36 @@ userRoutes.post("/", (req, res) => {
         res.json({
             ok: false,
             err,
+        });
+    });
+});
+userRoutes.put("/", auth_1.verifyToken, (req, res) => {
+    const { body } = req;
+    const currentUser = req.user;
+    const user = {
+        name: body.name || currentUser.name,
+        email: body.email || currentUser.email,
+        avatar: body.avatar || currentUser.avatar,
+    };
+    user_model_1.User.findByIdAndUpdate(req.user._id, user, { new: true }, (err, userDB) => {
+        if (err)
+            throw err;
+        if (!userDB) {
+            return res.json({
+                ok: false,
+                message: "User not found",
+            });
+        }
+        const token = token_1.default.getJwtToken({
+            _id: userDB._id,
+            name: userDB.name,
+            email: userDB.email,
+            avatar: userDB.avatar,
+        });
+        res.json({
+            ok: true,
+            // user: userDB,
+            token,
         });
     });
 });
