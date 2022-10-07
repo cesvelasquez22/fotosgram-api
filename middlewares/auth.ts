@@ -10,7 +10,7 @@ export const verifyToken = (
   const userToken = req.get("x-token") || "";
   Token.checkToken(userToken)
     .then((decoded: any) => {
-      console.log("decoded", decoded);
+      // console.log("decoded", decoded);
       req.user = decoded.user;
       next();
     })

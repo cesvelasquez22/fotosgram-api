@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
     const userToken = req.get("x-token") || "";
     token_1.default.checkToken(userToken)
         .then((decoded) => {
-        console.log("decoded", decoded);
+        // console.log("decoded", decoded);
         req.user = decoded.user;
         next();
     })

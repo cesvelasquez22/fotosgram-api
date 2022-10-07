@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { User } from "../models/user.model";
+import { IUser, User } from "../models/user.model";
 import bcrypt from "bcrypt";
 import Token from "../classes/token";
 import { verifyToken } from "../middlewares/auth";
@@ -17,7 +17,7 @@ userRoutes.get("/", (req: Request, res: Response) => {
 userRoutes.post("/login", (req: Request, res: Response) => {
   const body = req.body;
 
-  User.findOne({ email: body.email }, (err, userDB) => {
+  User.findOne({ email: body.email }, (err: any, userDB: IUser) => {
     if (err) throw err;
 
     if (!userDB) {
