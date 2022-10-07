@@ -48,4 +48,24 @@ postRoutes.post("/", [auth_1.verifyToken], (req, res) => {
         });
     });
 });
+postRoutes.post("/upload", [auth_1.verifyToken], (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.files) {
+        return res.status(400).json({
+            ok: false,
+            message: "No files were uploaded.",
+        });
+    }
+    const file = req.files.image;
+    if (!file.mimetype.includes("image")) {
+        return res.status(400).json({
+            ok: false,
+            message: "The file is not an image",
+        });
+    }
+    // await file.mv(`uploads/${file.name}`);
+    res.json({
+        ok: true,
+        file: file.name,
+    });
+}));
 exports.default = postRoutes;
