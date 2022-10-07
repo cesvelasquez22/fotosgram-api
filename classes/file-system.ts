@@ -40,4 +40,25 @@ export default class FileSystem {
     }
     return pathUserTemp;
   }
+
+  moveTempImageToPost(userId: string) {
+    const pathTemp = path.resolve(__dirname, "../uploads/", userId, "temp");
+    const pathPost = path.resolve(__dirname, "../uploads/", userId, "posts");
+    if (!fs.existsSync(pathTemp)) {
+      return [];
+    }
+    if (!fs.existsSync(pathPost)) {
+      fs.mkdirSync(pathPost);
+    }
+    const imagesTemp = this.getImagesTemp(userId);
+    imagesTemp.forEach(image => {
+      fs.renameSync(`${pathTemp}/${image}`, `${pathPost}/${image}`);
+    });
+    return imagesTemp;
+  }
+
+  private getImagesTemp(userId: string) {
+    const pathTemp = path.resolve(__dirname, "../uploads/", userId, "temp");
+    return fs.readdirSync(pathTemp) || [];
+  }
 }

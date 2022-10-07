@@ -8,7 +8,7 @@ export const PostSchema = new Schema({
   message: {
     type: String,
   },
-  img: [
+  imgs: [
     {
       type: String,
     },
