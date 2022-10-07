@@ -8,11 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const auth_1 = require("../middlewares/auth");
 const post_model_1 = require("../models/post.model");
+const file_system_1 = __importDefault(require("../classes/file-system"));
 const postRoutes = (0, express_1.Router)();
+const fileSystem = new file_system_1.default();
 postRoutes.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const page = Number(req.query.page) || 1;
     let skip = page - 1;
@@ -63,6 +68,7 @@ postRoutes.post("/upload", [auth_1.verifyToken], (req, res) => __awaiter(void 0,
         });
     }
     // await file.mv(`uploads/${file.name}`);
+    yield fileSystem.saveImageTemporal(file, req.user._id);
     res.json({
         ok: true,
         file: file.name,

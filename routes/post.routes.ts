@@ -2,8 +2,10 @@ import { Router, Request, Response } from "express";
 import { verifyToken } from "../middlewares/auth";
 import { Post } from "../models/post.model";
 import { FileUpload } from "../types/file-upload";
+import FileSystem from "../classes/file-system";
 
 const postRoutes = Router();
+const fileSystem = new FileSystem();
 
 postRoutes.get("/", async (req, res) => {
   const page = Number(req.query.page) || 1;
@@ -63,6 +65,7 @@ postRoutes.post("/upload", [verifyToken], async (req: any, res: Response) => {
   }
 
   // await file.mv(`uploads/${file.name}`);
+  await fileSystem.saveImageTemporal(file, req.user._id);
 
   res.json({
     ok: true,

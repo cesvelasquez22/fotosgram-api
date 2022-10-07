@@ -6,5 +6,5 @@ export interface FileUpload {
     truncated: boolean;
     mimetype: string;
     md5: string;
-    mv: (path: string) => Promise<void>;
+    mv: (path: string, callback: (err: any) => void) => Promise<void>;
 }
