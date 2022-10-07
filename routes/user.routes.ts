@@ -6,10 +6,11 @@ import { verifyToken } from "../middlewares/auth";
 
 const userRoutes = Router();
 
-userRoutes.get("/", (req: Request, res: Response) => {
+userRoutes.get("/", [verifyToken], (req: any, res: Response) => {
+  const user = req.user;
   res.json({
     ok: true,
-    message: "Everything is ok",
+    user,
   });
 });
 
