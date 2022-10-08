@@ -1,6 +1,6 @@
 # Fotosgram API
 
-Fotosgram is an instagram clone developed with learning purposes. This projects is part of Fernando Herrera's Ionic 6+ Course in Udemy. 
+Fotosgram is an instagram clone developed with learning purposes. This project is part of Fernando Herrera's Ionic 6+ Course in Udemy. 
 
 ## Dependencies
 
